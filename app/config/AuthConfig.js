@@ -1,3 +1,4 @@
+require('dotenv').config();
 module.exports = {
-    secret: "techblog-secret-key"
+    secret: process.env.API_SECRET_KEY,
 };

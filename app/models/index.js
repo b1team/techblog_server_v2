@@ -1,5 +1,7 @@
-const config = require("../config/DbConfig.js");
 const Sequelize = require("sequelize");
+const config = require("../config/DbConfig.js");
+const initModels = require("./init-models");
+const db = {};
 const sequelize = new Sequelize(
     config.DB,
     config.USER,
@@ -16,20 +18,9 @@ const sequelize = new Sequelize(
         }
     }
 );
-const db = {};
+
+db.sequelize = sequelize
 db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-db.user = require("../models/UserModel.js")(sequelize, Sequelize);
-db.role = require("../models/RoleModel.js")(sequelize, Sequelize);
-db.role.belongsToMany(db.user, {
-    through: "user_roles",
-    foreignKey: "roleId",
-    otherKey: "userId"
-});
-db.user.belongsToMany(db.role, {
-    through: "user_roles",
-    foreignKey: "userId",
-    otherKey: "roleId"
-});
 db.ROLES = ["user", "admin", "moderator"];
+initModels(db.sequelize);
 module.exports = db;
