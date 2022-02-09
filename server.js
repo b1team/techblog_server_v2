@@ -37,9 +37,9 @@ require('./app/routes/AuthRoutes.js')(app);
 require('./app/routes/UserRoutes.js')(app);
 
 
-const PORT = process.env.PORT || 8080;
-const HOST = process.env.HOST || "127.0.0.1";
-app.listen(PORT, "0.0.0.0");
+const PORT = process.env.API_PORT || 8080;
+const HOST = process.env.API_HOST || "127.0.0.1";
+app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
 
 function initial() {
