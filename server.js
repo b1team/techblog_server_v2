@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:8081"
+    origin: "http://0.0.0.0:8081"
 };
 
 app.use(cors(corsOptions));
@@ -22,7 +22,7 @@ const Role = db.role;
 
 // db.sequelize.sync();
 // force: true will drop the table if it already exists
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
     console.log('Drop and Resync Database with { force: true }');
     // initial();
 });
@@ -36,11 +36,11 @@ app.get("/", (req, res) => {
 require('./app/routes/AuthRoutes.js')(app);
 require('./app/routes/UserRoutes.js')(app);
 
-// set port, listen for requests
+
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`);
-});
+const HOST = process.env.HOST || "127.0.0.1";
+app.listen(PORT, "0.0.0.0");
+console.log(`Running on http://${HOST}:${PORT}`);
 
 function initial() {
     Role.create({
