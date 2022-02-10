@@ -1,6 +1,6 @@
 const db = require("../models");
 const config = require("../config/AuthConfig");
-const User = db.user;
+const User = db.users;
 const Role = db.role;
 
 const Op = db.Sequelize.Op;
@@ -14,8 +14,6 @@ exports.signup = (req, res) => {
         username: req.body.username,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 8),
-        age: req.body.age,
-        phone: req.body.phone
     })
         .then(user => {
             if (req.body.roles) {
