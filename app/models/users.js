@@ -1,39 +1,39 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, Sequelize) {
   return sequelize.define('users', {
     id: {
       autoIncrement: true,
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true
     },
     deleted: {
-      type: DataTypes.BOOLEAN,
+      type: Sequelize.BOOLEAN,
       allowNull: true
     },
     username: {
-      type: DataTypes.STRING(80),
+      type: Sequelize.STRING(80),
       allowNull: false,
       unique: "users_username_key"
     },
     password: {
-      type: DataTypes.STRING(80),
+      type: Sequelize.STRING(80),
       allowNull: false
     },
     name: {
-      type: DataTypes.STRING(80),
+      type: Sequelize.STRING(80),
       allowNull: true
     },
     email: {
-      type: DataTypes.STRING(80),
+      type: Sequelize.STRING(80),
       allowNull: true
     },
     phone_number: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: true
     },
     avatar_url: {
-      type: DataTypes.TEXT,
+      type: Sequelize.TEXT,
       allowNull: true
     }
   }); 

@@ -1,23 +1,23 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, Sequelize) {
   return sequelize.define('tags', {
     id: {
       autoIncrement: true,
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true
     },
     deleted: {
-      type: DataTypes.BOOLEAN,
+      type: Sequelize.BOOLEAN,
       allowNull: true
     },
     name: {
-      type: DataTypes.STRING(80),
+      type: Sequelize.STRING(80),
       allowNull: false,
       unique: "tags_name_key"
     },
     slug: {
-      type: DataTypes.STRING(200),
+      type: Sequelize.STRING(200),
       allowNull: false,
       unique: "tags_slug_key"
     }
