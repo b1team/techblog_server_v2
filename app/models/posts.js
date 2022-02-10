@@ -1,18 +1,18 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, Sequelize) {
   return sequelize.define('posts', {
     id: {
       autoIncrement: true,
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true
     },
     deleted: {
-      type: DataTypes.BOOLEAN,
+      type: Sequelize.BOOLEAN,
       allowNull: true
     },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       references: {
         model: 'users',
@@ -20,28 +20,28 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     title: {
-      type: DataTypes.STRING(200),
+      type: Sequelize.STRING(200),
       allowNull: false
     },
     thumbnail: {
-      type: DataTypes.TEXT,
+      type: Sequelize.TEXT,
       allowNull: true
     },
     slug: {
-      type: DataTypes.STRING(200),
+      type: Sequelize.STRING(200),
       allowNull: false,
       unique: "posts_slug_key"
     },
     brief: {
-      type: DataTypes.TEXT,
+      type: Sequelize.TEXT,
       allowNull: false
     },
     content: {
-      type: DataTypes.TEXT,
+      type: Sequelize.TEXT,
       allowNull: false
     },
     last_edited_at: {
-      type: DataTypes.DATE,
+      type: Sequelize.DATE,
       allowNull: true
     }
   });

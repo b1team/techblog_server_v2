@@ -1,14 +1,14 @@
 const Sequelize = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
     return sequelize.define("roles", {
         id: {
             autoIncrement: true,
-            type: DataTypes.INTEGER,
+            type: Sequelize.INTEGER,
             allowNull: false,
             primaryKey: true
         },
         name: {
-            type: DataTypes.STRING(80),
+            type: Sequelize.STRING(80),
             allowNull: false,
             unique: "roles_name_key"
         },
