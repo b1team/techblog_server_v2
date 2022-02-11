@@ -9,8 +9,8 @@ module.exports = function (app) {
         );
         next();
     });
-
     app.get("/api/test/all", controller.allAccess);
+    app.put("/api/profile", controller.updateProfile);
 
     app.get(
         "/api/test/user",
