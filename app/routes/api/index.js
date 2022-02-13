@@ -3,6 +3,7 @@ import postRoutes from "../../modules/post/post.routers.js";
 import userRoutes from "../../modules/user/user.routers.js";
 import authRoutes from "../../modules/auth/auth.routers.js";
 import commentRoutes from "../../modules/comment/comment.routers.js";
+import tagRoutes from "../../modules/tag/tag.routers.js";
 
 const apiRoutes = express.Router();
 
@@ -14,5 +15,6 @@ apiRoutes.use("/user", userRoutes);
 apiRoutes.use("/auth", authRoutes);
 apiRoutes.use("/post", postRoutes);
 apiRoutes.use("/comment", commentRoutes);
+apiRoutes.use("/tag", tagRoutes);
 
 export default apiRoutes;
