@@ -28,12 +28,11 @@ export function getPost(req, res) {
         .then(dbPost => res.status(200).send(dbPost))
         .catch(err => res.status(422).json(err));
 }
-
 // get all posts for a user
 export function getAllPostsForUser(req, res) {
     db.posts.findAll({
         where: {
-            user_id: req.body.user_id
+            user_id: req.params.user_id
         },
         order: [
             ['createdAt', 'DESC']
@@ -79,16 +78,20 @@ export function updatePost(req, res) {
         .catch(err => res.status(422).json(err));
 }
 
-//delete a post by id
 export function deletePost(req, res) {
-    db.posts.destroy({
+    db.posts.findOne({
         where: {
             id: req.params.id
         }
     })
-        .then(dbPost => res.status(202).send({
-            id: dbPost.id,
-            message: "Post deleted successfully",
-        }))
+        .then(dbPost => {
+            dbPost.destroy()
+                .then(dbPost => res.status(201).send({
+                    slug: dbPost.slug,
+                    user_id: dbPost.user_id,
+                    message: "Post deleted successfully",
+                }))
+                .catch(err => res.status(422).json(err));
+        })
         .catch(err => res.status(422).json(err));
 }
