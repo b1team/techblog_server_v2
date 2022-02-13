@@ -1,9 +1,10 @@
-const jwt = require("jsonwebtoken");
-const config = require("../config/AuthConfig.js");
-const db = require("../models");
-const User = db.user;
+import pkg from 'jsonwebtoken';
+import { secret } from "../config/AuthConfig.js";
+import db from "../models/index.js";
+const User = db.users;
+const { verify } = pkg;
 
-verifyToken = (req, res, next) => {
+export function verifyToken(req, res, next){
     let token = req.headers["x-access-token"];
 
     if (!token) {
@@ -12,7 +13,7 @@ verifyToken = (req, res, next) => {
         });
     }
 
-    jwt.verify(token, config.secret, (err, decoded) => {
+    verify(token, secret, (err, decoded) => {
         if (err) {
             return res.status(401).send({
                 message: "Unauthorized!"
@@ -23,7 +24,7 @@ verifyToken = (req, res, next) => {
     });
 };
 
-isAdmin = (req, res, next) => {
+export function isAdmin(req, res, next){
     User.findByPk(req.userId).then(user => {
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
@@ -41,7 +42,7 @@ isAdmin = (req, res, next) => {
     });
 };
 
-isModerator = (req, res, next) => {
+export function isModerator(req, res, next) {
     User.findByPk(req.userId).then(user => {
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
@@ -58,7 +59,7 @@ isModerator = (req, res, next) => {
     });
 };
 
-isModeratorOrAdmin = (req, res, next) => {
+export function isModeratorOrAdmin(req, res, next){
     User.findByPk(req.userId).then(user => {
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
@@ -86,4 +87,4 @@ const authJwt = {
     isModerator: isModerator,
     isModeratorOrAdmin: isModeratorOrAdmin
 };
-module.exports = authJwt;
+export default authJwt;
