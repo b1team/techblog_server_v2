@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-module.exports = (sequelize, Sequelize) => {
+import Sequelize from 'sequelize';
+export default (sequelize, Sequelize) => {
     return sequelize.define("roles", {
         id: {
             autoIncrement: true,
