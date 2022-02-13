@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, Sequelize) {
+import Sequelize from 'sequelize';
+export default function(sequelize, Sequelize) {
   return sequelize.define('posts', {
     id: {
       autoIncrement: true,

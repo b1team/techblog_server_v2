@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, Sequelize) {
-  return sequelize.define('tags', {
+import Sequelize from 'sequelize';
+export default function(sequelize, Sequelize) {
+  return sequelize.define("tags", {
     id: {
       autoIncrement: true,
       type: Sequelize.INTEGER,

@@ -1,21 +1,21 @@
-const db = require('../models');
-exports.allAccess = (req, res) => {
+import db from '../../models/index.js';
+export function allAccess(req, res) {
     res.status(200).send("Public Content.");
-};
+}
 
-exports.userBoard = (req, res) => {
+export function userBoard(req, res) {
     res.status(200).send("User Content.");
-};
+}
 
-exports.adminBoard = (req, res) => {
+export function adminBoard(req, res) {
     res.status(200).send("Admin Content.");
-};
+}
 
-exports.moderatorBoard = (req, res) => {
+export function moderatorBoard(req, res) {
     res.status(200).send("Moderator Content.");
-};
+}
 
-exports.updateProfile = (req, res) => {
+export function updateProfile(req, res) {
     db.users.findOne({
         where: {
             id: req.body.id
@@ -46,4 +46,4 @@ exports.updateProfile = (req, res) => {
         .catch(err => {
             res.status(500).json(err);
         });
-};
+}

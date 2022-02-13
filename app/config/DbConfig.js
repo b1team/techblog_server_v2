@@ -1,14 +1,13 @@
-require('dotenv').config();
-module.exports = {
-    HOST: process.env.POSTGRES_HOST,
-    USER: process.env.POSTGRES_USER,
-    PASSWORD: process.env.POSTGRES_PASSWORD,
-    DB: process.env.POSTGRES_DB,
-    dialect: process.env.POSTGRES_DIALECT,
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
+import dotenv from 'dotenv'
+dotenv.config()
+export const HOST = process.env.POSTGRES_HOST;
+export const USER = process.env.POSTGRES_USER;
+export const PASSWORD = process.env.POSTGRES_PASSWORD;
+export const DB = process.env.POSTGRES_DB;
+export const dialect = "postgres";
+export const pool = {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
 };

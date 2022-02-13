@@ -1,14 +1,15 @@
-const db = require("../models");
-const config = require("../config/AuthConfig");
+import db from "../../models/index.js";
+import { secret } from "../../config/AuthConfig.js";
+import pkg from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 const User = db.users;
-const Role = db.role;
+const Role = db.roles;
 
 const Op = db.Sequelize.Op;
 
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
+const { sign } = pkg;
 
-exports.signup = (req, res) => {
+export function signup(req, res) {
     // Save User to Database
     User.create({
         username: req.body.username,
@@ -38,9 +39,9 @@ exports.signup = (req, res) => {
         .catch(err => {
             res.status(500).send({ message: err.message });
         });
-};
+}
 
-exports.signin = (req, res) => {
+export function signin(req, res) {
     User.findOne({
         where: {
             email: req.body.email
@@ -63,7 +64,7 @@ exports.signin = (req, res) => {
                 });
             }
 
-            var token = jwt.sign({ id: user.id }, config.secret, {
+            var token = sign({ id: user.id }, secret, {
                 expiresIn: 86400 // 24 hours
             });
 
@@ -84,4 +85,5 @@ exports.signin = (req, res) => {
         .catch(err => {
             res.status(500).send({ message: err.message });
         });
-};
+}
+
