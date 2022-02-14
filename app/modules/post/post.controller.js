@@ -63,7 +63,6 @@ export function createPost(req, res) {
             res.status(422).json(err);
         });
 }
-
 // get a post by slug
 export function getPost(req, res) {
     db.posts.findOne({
@@ -71,9 +70,20 @@ export function getPost(req, res) {
                 slug: req.params.slug
             }
         })
-        .then(dbPost => res.status(200).send(dbPost))
-        .catch(err => res.status(422).json(err));
+        .then(post => {
+            if (post) {
+                res.status(200).send(post);
+            } else {
+                res.status(404).send({
+                    message: "Post not found"
+                });
+            }
+        })
+        .catch(err => {
+            res.status(422).json(err);
+        });
 }
+
 // get all posts for a user
 export function getAllPostsForUser(req, res) {
     db.posts.findAll({
@@ -84,7 +94,15 @@ export function getAllPostsForUser(req, res) {
                 ['createdAt', 'DESC']
             ]
         })
-        .then(dbPost => res.status(200).send(dbPost))
+        .then(dbPost => {
+            if (post) {
+                res.status(200).send(post);
+            } else {
+                res.status(404).send({
+                    message: "Post not found"
+                });
+            }
+        })
         .catch(err => res.status(422).json(err));
 }
 

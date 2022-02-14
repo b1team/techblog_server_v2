@@ -1,6 +1,6 @@
 import authJwt from "../../middleware/AuthJwt.js";
 import express from "express";
-import { getTag } from "./tag.controller.js";
+import { getTag, getAllTagsCount } from "./tag.controller.js";
 
 const tagRoutes = express.Router();
 
@@ -9,5 +9,6 @@ tagRoutes.get("/", function(req, res, next) {
 });
 
 tagRoutes.get("/:slug", authJwt.verifyToken, getTag);
+tagRoutes.get("/count/:slug", authJwt.verifyToken, getAllTagsCount);
 
 export default tagRoutes;

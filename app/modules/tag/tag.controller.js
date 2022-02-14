@@ -7,8 +7,40 @@ export function getTag(req, res) {
         },
         include: [{
             model: db.posts,
-            attributes: ["title", "thumbnail", "brief", "createdAt"],
+            as: "posts",
         }],
+        order: [
+            ['createdAt', 'DESC']
+        ]
+    })
+        .then(dbPost => {
+            if (dbPost) {
+                res.status(200).send(dbPost);
+            } else {
+                res.status(404).send({
+                    message: "Post not found"
+                });
+            }
+        })
+        .catch(err => res.status(422).json(err));
+}
+
+
+
+// get number of posts for each tag
+export function getAllTagsCount(req, res) {
+    db.tags.findAll({
+        group: ["tags.id"],
+        includeIgnoreAttributes: false,
+        include: [{
+            model: db.posts,
+        }],
+        attributes: [
+            "id",
+            "name",
+            "slug",
+            [db.sequelize.fn("COUNT", db.sequelize.col("posts.id")), "count"]
+        ],
         order: [
             ['createdAt', 'DESC']
         ]
