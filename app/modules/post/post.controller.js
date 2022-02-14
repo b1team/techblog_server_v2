@@ -95,8 +95,8 @@ export function getAllPostsForUser(req, res) {
             ]
         })
         .then(dbPost => {
-            if (post) {
-                res.status(200).send(post);
+            if (dbPost) {
+                res.status(200).send(dbPost);
             } else {
                 res.status(404).send({
                     message: "Post not found"
