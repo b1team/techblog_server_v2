@@ -105,6 +105,32 @@ export function getAllPostsForUser(req, res) {
         })
         .catch(err => res.status(422).json(err));
 }
+// get a post by id and return tags
+export function getPostWithTags(req, res) {
+    db.posts.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(post => {
+            if (post) {
+                post.getTags()
+                    .then(tags => {
+                        res.status(200).send({
+                            tags: tags.map(tag => tag.name)
+                        });
+                    })
+            } else {
+                res.status(404).send({
+                    message: "Post not found"
+                });
+            }
+        })
+        .catch(err => {
+            res.status(422).json(err);
+        });
+}
+
 
 // get all posts
 export function getAllPosts(req, res) {
