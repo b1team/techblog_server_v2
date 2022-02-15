@@ -7,7 +7,7 @@ import mainRouter from "./app/routes/index.js";
 const app = express();
 
 var corsOptions = {
-    origin: "http://0.0.0.0:8081"
+    origin: "http://127.0.0.1:8081"
 };
 
 app.use(cors(corsOptions));

@@ -15,6 +15,32 @@ export function moderatorBoard(req, res) {
     res.status(200).send("Moderator Content.");
 }
 
+
+//get a user by id
+export function getUserById(req, res) {
+    db.users.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then(user => {
+        if(user) {
+            res.status(200).json({
+                email: user.email,
+                username: user.username,
+                name: user.name,
+                id: user.id,
+                phone_number: user.phone_number
+            });
+        } else {
+            res.status(404).json({
+                message: 'User not found'
+            });
+        }
+    }).catch(err => {
+        res.status(422).json(err)
+    });
+}
+
 export function updateProfile(req, res) {
     db.users.findOne({
         where: {
