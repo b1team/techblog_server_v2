@@ -11,8 +11,8 @@ postRoutes.get("/", function(req, res, next) {
 postRoutes.post("/create", authJwt.verifyToken, createPost);
 postRoutes.put("/update/:id", authJwt.verifyToken, updatePost);
 postRoutes.delete("/delete/:id", authJwt.verifyToken, deletePost);
-postRoutes.get("/get/:slug", authJwt.verifyToken, getPost);
-postRoutes.get("/all", authJwt.verifyToken, getAllPosts);
+postRoutes.get("/get/:slug", getPost);
+postRoutes.get("/all", getAllPosts);
 postRoutes.get("/all/:user_id", authJwt.verifyToken, getAllPostsForUser);
 
 export default postRoutes;
