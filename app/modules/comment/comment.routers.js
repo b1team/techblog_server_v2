@@ -8,7 +8,7 @@ commentRoutes.get("/", function(req, res, next) {
   res.json({ message: "from index api" });
 });
 
-commentRoutes.get("/all/:post_id", authJwt.verifyToken, getComments);
+commentRoutes.get("/all/:post_id", getComments);
 commentRoutes.post("/add", authJwt.verifyToken, addComment);
 
 export default commentRoutes;
