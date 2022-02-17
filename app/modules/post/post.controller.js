@@ -206,3 +206,12 @@ export function deletePost(req, res) {
         })
         .catch(err => console.log(err));
 }
+
+//random posts and limit to 5
+export function getRandomPosts(req, res) {
+    db.posts.findAll({
+            order: db.sequelize.random() , limit: 5
+        })
+        .then(dbPost => res.status(200).send(dbPost))
+        .catch(err => res.status(422).json(err));
+}

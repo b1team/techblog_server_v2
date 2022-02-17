@@ -14,7 +14,7 @@ const sequelize = new Sequelize(
         host: HOST,
         dialect: _dialect,
         operatorsAliases: false,
-        logging: true,
+        logging: false,
         pool: {
             max: _pool.max,
             min: _pool.min,

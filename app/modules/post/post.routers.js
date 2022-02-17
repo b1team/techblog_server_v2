@@ -1,6 +1,6 @@
 import authJwt from "../../middleware/AuthJwt.js";
 import express from "express";
-import { createPost, getAllPosts,getPostWithTags, updatePost, deletePost, getPost, getAllPostsForUser } from "./post.controller.js";
+import { createPost,getRandomPosts, getAllPosts,getPostWithTags, updatePost, deletePost, getPost, getAllPostsForUser } from "./post.controller.js";
 
 const postRoutes = express.Router();
 
@@ -15,5 +15,6 @@ postRoutes.get("/get/:slug", getPost);
 postRoutes.get("/all", getAllPosts);
 postRoutes.get("/all/:user_id", authJwt.verifyToken, getAllPostsForUser);
 postRoutes.get("/tags/:id", getPostWithTags);
+postRoutes.get("/random", getRandomPosts);
 
 export default postRoutes;
