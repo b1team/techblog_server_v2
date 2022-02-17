@@ -13,44 +13,35 @@ export function createPost(req, res) {
 
         .then(post => {
             if (req.body.tags) {
-                for (let i = 0; i < req.body.tags.length; i++) {
+                var split_tags = req.body.tags.split(",");
+                var clean_tags = split_tags.map(item => {return item.replace(" ",'')});
+                for (let i = 0; i < split_tags.length; i++) {
                     db.tags.findOne({
                             where: {
-                                name: req.body.tags[i]
+                                name: clean_tags[i]
                             }
                         })
                         .then(tag => {
                             if (tag) {
-                                post.addTags(tag.id)
-                                    .then(post_tag => {
-                                        res.status(201).send({
-                                            message: "Post created successfully",
-                                            user_id: post.user_id,
-                                            slug: post.slug,
-                                            post_tag: post_tag
-                                        });
-                                    })
+                                post.addTags(tag.id);
                             } else {
                                 db.tags.create({
-                                        name: req.body.tags[i],
-                                        slug: slugify(req.body.tags[i], {
+                                        name: clean_tags[i],
+                                        slug: slugify(clean_tags[i], {
                                             lower: true
                                         })
                                     })
                                     .then(tag => {
-                                        post.setTags(tag.id)
-                                            .then(post_tag => {
-                                                res.status(201).send({
-                                                    user_id: post.user_id,
-                                                    slug: post.slug,
-                                                    post_tag: post_tag,
-                                                    message: "Post created successfully"
-                                                })
-                                            })
+                                        post.setTags(tag.id);   
                                     })
                             }
                         })
                 }
+                res.status(201).send({
+                    message: "Post created successfully",
+                    user_id: post.user_id,
+                    slug: post.slug,
+                });
             } else {
                 res.status(201).send({
                     message: "Post created successfully",
