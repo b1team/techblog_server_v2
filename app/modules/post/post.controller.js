@@ -145,6 +145,7 @@ export function getAllPosts(req, res) {
 
 // update a post by id
 export function updatePost(req, res) {
+    var datetime = new Date();
     db.posts.findOne({
             where: {
                 id: req.params.id
@@ -156,6 +157,7 @@ export function updatePost(req, res) {
                     thumbnail: req.body.thumbnail,
                     content: req.body.content,
                     brief: req.body.brief,
+                    last_edited_at: datetime,
                     slug: `${slugify(req.body.title, {lower: true})}-${Math.floor(Date.now()/1000)}`
                 })
                 .then(dbPost => res.status(201).send({

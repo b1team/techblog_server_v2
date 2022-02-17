@@ -31,10 +31,6 @@ export default function(sequelize, Sequelize) {
     phone_number: {
       type: Sequelize.INTEGER,
       allowNull: true
-    },
-    avatar_url: {
-      type: Sequelize.TEXT,
-      allowNull: true
     }
   }); 
 };
