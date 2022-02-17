@@ -27,9 +27,7 @@ export function createPost(req, res) {
                             } else {
                                 db.tags.create({
                                         name: clean_tags[i],
-                                        slug: slugify(clean_tags[i], {
-                                            lower: true
-                                        })
+                                        slug: `${slugify(clean_tags[i], {lower: true})}-${Math.floor(Date.now()/1000)}`
                                     })
                                     .then(tag => {
                                         post.setTags(tag.id);   
@@ -151,14 +149,50 @@ export function updatePost(req, res) {
                     last_edited_at: datetime,
                     slug: `${slugify(req.body.title, {lower: true})}-${Math.floor(Date.now()/1000)}`
                 })
-                .then(dbPost => res.status(201).send({
-                    slug: dbPost.slug,
-                    user_id: dbPost.user_id,
-                    message: "Post updated successfully",
-                }))
-                .catch(err => res.status(422).json(err));
+                .then(dbPost => {
+                    if (req.body.tags) {
+                        var split_tags = req.body.tags.split(",");
+                        var clean_tags = split_tags.map(item => {return item.replace(" ",'')});
+                        for (let i = 0; i < split_tags.length; i++) {
+                            db.tags.findOne({
+                                    where: {
+                                        name: clean_tags[i]
+                                    }
+                                })
+                                .then(tag => {
+                                    if (tag) {
+                                        dbPost.addTags(tag.id);
+                                    } else {
+                                        db.tags.create({
+                                                name: clean_tags[i],
+                                                slug: `${slugify(clean_tags[i], {lower: true})}-${Math.floor(Date.now()/1000)}`
+                                            })
+                                            .then(tag => {
+                                                dbPost.setTags(tag.id);
+                                            })
+                                    }
+                                })
+                        }
+                        res.status(200).send({
+                            message: "Post updated successfully",
+                            user_id: dbPost.user_id,
+                            slug: dbPost.slug,
+                        });
+                    } else {
+                        res.status(200).send({
+                            message: "Post updated successfully",
+                            user_id: dbPost.user_id,
+                            slug: dbPost.slug,
+                        });
+                    }
+                })
+                .catch(err => {
+                    res.status(422).json(err);
+                });
         })
-        .catch(err => res.status(422).json(err));
+        .catch(err => {
+            res.status(422).json(err);
+        });
 }
 
 export function deletePost(req, res) {
@@ -171,28 +205,34 @@ export function deletePost(req, res) {
             if(dbComment) {
                 dbComment.destroy()
                 .then(dbComment => {
-                    db.posts.destroy({
+                    db.posts.findOne({
                             where: {
                                 id: dbComment.post_id
                             }
                         })
-                        .then(dbPost => res.status(201).send({
+                        .then(dbPost => {
+                            dbPost.removeTags()
+                            dbPost.destroy()
+                            res.status(201).send({
                             slug: dbPost.slug,
                             user_id: dbPost.user_id,
                             message: "Post deleted successfully",
-                        }))
+                        })})
                 })
             } else {
-                db.posts.destroy({
+                db.posts.findOne({
                     where: {
                         id: req.params.id
                     }
                 })
-                .then(dbPost => res.status(201).send({
+                .then(dbPost => {
+                    dbPost.removeTags()
+                    dbPost.destroy()
+                    res.status(201).send({
                     slug: dbPost.slug,
                     user_id: dbPost.user_id,
                     message: "Post deleted successfully",
-                }))
+                })})
             }
         })
         .catch(err => console.log(err));
