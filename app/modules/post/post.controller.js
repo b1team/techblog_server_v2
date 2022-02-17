@@ -169,19 +169,38 @@ export function updatePost(req, res) {
 }
 
 export function deletePost(req, res) {
-    db.posts.findOne({
+    db.comments.findOne({
             where: {
-                id: req.params.id
+                post_id: req.params.id
             }
         })
-        .then(dbPost => {
-            dbPost.destroy()
+        .then(dbComment => {
+            if(dbComment) {
+                dbComment.destroy()
+                .then(dbComment => {
+                    db.posts.destroy({
+                            where: {
+                                id: dbComment.post_id
+                            }
+                        })
+                        .then(dbPost => res.status(201).send({
+                            slug: dbPost.slug,
+                            user_id: dbPost.user_id,
+                            message: "Post deleted successfully",
+                        }))
+                })
+            } else {
+                db.posts.destroy({
+                    where: {
+                        id: req.params.id
+                    }
+                })
                 .then(dbPost => res.status(201).send({
                     slug: dbPost.slug,
                     user_id: dbPost.user_id,
                     message: "Post deleted successfully",
                 }))
-                .catch(err => res.status(422).json(err));
+            }
         })
-        .catch(err => res.status(422).json(err));
+        .catch(err => console.log(err));
 }
