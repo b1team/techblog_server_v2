@@ -13,6 +13,6 @@ userRoutes.get("/user-board", authJwt.verifyToken, userBoard);
 userRoutes.get("/moderator-board",[authJwt.verifyToken, authJwt.isModerator], moderatorBoard);
 userRoutes.get("/admin-board", [authJwt.verifyToken, authJwt.isAdmin], adminBoard);
 userRoutes.put("/update/profile", authJwt.verifyToken, updateProfile);
-userRoutes.get("/:id", getUserById);
+userRoutes.get("/:id",authJwt.verifyToken, getUserById);
 
 export default userRoutes;
