@@ -7,10 +7,6 @@ export default function(sequelize, Sequelize) {
       allowNull: false,
       primaryKey: true
     },
-    deleted: {
-      type: Sequelize.BOOLEAN,
-      allowNull: true
-    },
     user_id: {
       type: Sequelize.INTEGER,
       allowNull: false,

@@ -3,7 +3,6 @@ import { DB, USER, PASSWORD, HOST, dialect as _dialect, pool as _pool } from "..
 import users from "./users.js";
 import posts from "./posts.js";
 import comments from "./comments.js";
-import votes from "./votes.js";
 import roles from "./role.js";
 import tags from "./tags.js";
 
@@ -15,7 +14,7 @@ const sequelize = new Sequelize(
         host: HOST,
         dialect: _dialect,
         operatorsAliases: false,
-        logging: false,
+        logging: true,
         pool: {
             max: _pool.max,
             min: _pool.min,
@@ -34,7 +33,6 @@ db.roles = roles(sequelize, Sequelize);
 db.users = users(sequelize, Sequelize);
 db.posts = posts(sequelize, Sequelize);
 db.comments = comments(sequelize, Sequelize);
-db.votes = votes(sequelize, Sequelize);
 db.tags = tags(sequelize, Sequelize);
 
 db.posts.belongsToMany(db.tags, { through: "post_tags", foreignKey: "post_id", otherKey: "tag_id"});
@@ -42,14 +40,10 @@ db.tags.belongsToMany(db.posts, { through: "post_tags", foreignKey: "tag_id", ot
 db.comments.belongsTo(db.posts, { foreignKey: "post_id"});
 db.posts.hasMany(db.comments, { foreignKey: "post_id"});
 db.posts.hasMany(db.tags, { foreignKey: "post_id"});
-db.votes.belongsTo(db.posts, { foreignKey: "post_id"});
-db.posts.hasMany(db.votes, { foreignKey: "post_id"});
 db.comments.belongsTo(db.users, { foreignKey: "user_id"});
 db.users.hasMany(db.comments, { foreignKey: "user_id"});
 db.posts.belongsTo(db.users, { foreignKey: "user_id"});
 db.users.hasMany(db.posts, { foreignKey: "user_id"});
-db.votes.belongsTo(db.users, { foreignKey: "user_id"});
-db.users.hasMany(db.votes, { foreignKey: "user_id"});
 db.roles.belongsToMany(db.users, { through: "user_roles", foreignKey: "roleId", otherKey: "userId" });
 db.users.belongsToMany(db.roles, { through: "user_roles", foreignKey: "userId", otherKey: "roleId" });
 
