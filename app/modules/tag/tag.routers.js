@@ -8,7 +8,7 @@ tagRoutes.get("/", function(req, res, next) {
   res.json({ message: "from index api" });
 });
 
-tagRoutes.get("/slug/:slug", authJwt.verifyToken, getTag);
-tagRoutes.get("/all", authJwt.verifyToken, getAllTagsCount);
+tagRoutes.get("/slug/:slug", getTag);
+tagRoutes.get("/all", getAllTagsCount);
 
 export default tagRoutes;
