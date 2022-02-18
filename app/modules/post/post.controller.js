@@ -55,10 +55,31 @@ export function createPost(req, res) {
 // get a post by slug
 export function getPost(req, res) {
     db.posts.findOne({
-            where: {
-                slug: req.params.slug
+        where: {
+            slug: req.params.slug
+        }
+    })
+        .then(post => {
+            if (post) {
+                res.status(200).send(post);
+            } else {
+                res.status(404).send({
+                    message: "Post not found"
+                });
             }
         })
+        .catch(err => {
+            res.status(422).json(err);
+        });
+}
+
+// get a post by id
+export function getPostById(req, res) {
+    db.posts.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
         .then(post => {
             if (post) {
                 res.status(200).send(post);
